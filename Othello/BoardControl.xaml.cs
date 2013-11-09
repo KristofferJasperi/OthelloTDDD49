@@ -27,34 +27,4 @@ namespace Othello
             MainCollection.DataContext = new Board(8);
         }
     }
-
-    public class Field
-    {
-        public int Value {get; set;}
-        public Field(int value)
-        {
-            this.Value = value;
-        }
-    }
-
-    public class Board
-    {
-        public List<List<Field>> Rows { get; set; }
-
-        public Board(int size)
-        {
-            Rows = new List<List<Field>>();
-            for (int row = 0; row < size; row++)
-            {
-                var columns = new List<Field>();
-                for (int col = 0; col < size; col++)
-                {
-                    var field = new Field(row * size + col);
-                    columns.Add(field);
-                }
-
-                Rows.Add(columns);
-            }
-        }
-    }
 }
