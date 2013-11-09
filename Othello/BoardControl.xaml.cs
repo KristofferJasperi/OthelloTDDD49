@@ -20,11 +20,22 @@ namespace Othello
     /// </summary>
     public partial class BoardControl : UserControl
     {
+        private Board TheBoard = new Board(8);
+
         public BoardControl()
         {
             InitializeComponent();
 
-            MainCollection.DataContext = new Board(8);
+            MainCollection.DataContext = TheBoard;
+        }
+
+        private void BoardClicked(object sender, MouseButtonEventArgs e)
+        {
+            var field = ((Border)sender).Tag as Field;
+            if (field != null)
+            {
+                MessageBox.Show("(X,Y) = (" + field.Column + "," + field.Row + ")");
+            }
         }
     }
 }
