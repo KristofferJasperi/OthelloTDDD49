@@ -25,22 +25,10 @@ namespace Othello
             InitializeComponent();
         }
 
-        private void ButtonNewGame_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("hej");
-        }
-
-        private void ButtonSave_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("nop");
-        }
-
-        private void ButtonExit_Click(object sender, RoutedEventArgs e)
+        private void ExitClicked(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Hej då");
             Application.Current.Shutdown();
         }
-
-
     }
 }
