@@ -69,6 +69,7 @@
     <Compile Include="BoardControl.xaml.cs">
       <DependentUpon>BoardControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="BoardLogic.cs" />
     <Compile Include="Field.cs" />
     <Compile Include="FieldValue.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -77,6 +78,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OthelloGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

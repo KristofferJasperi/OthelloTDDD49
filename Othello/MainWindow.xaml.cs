@@ -20,15 +20,26 @@ namespace Othello
     /// </summary>
     public partial class MainWindow : Window
     {
+        private OthelloGame m_game;
+        private Board m_board;
+
         public MainWindow()
         {
             InitializeComponent();
+            m_board = new GUIBoard(8);
+            m_game = new OthelloGame(m_board);
+            BoardControl.SetBoard(m_board);
         }
 
         private void ExitClicked(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Hej då");
             Application.Current.Shutdown();
+        }
+
+        private void StartClicked(object sender, RoutedEventArgs e)
+        {
+            m_game.Restart();
         }
     }
 }

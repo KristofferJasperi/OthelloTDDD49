@@ -23,7 +23,7 @@
                         <ComboBoxItem>AI Level 1</ComboBoxItem>
                         <ComboBoxItem>AI Level 2</ComboBoxItem>
                     </ComboBox>
-                    <Button>Start</Button>
+                    <Button Click="StartClicked">Start</Button>
                 </StackPanel>
             </Border>
             <Border Style="{StaticResource SideBoxBorder}">
@@ -55,6 +55,6 @@
             <ListBoxItem>White A8</ListBoxItem>
             <ListBoxItem>Black A8</ListBoxItem>
         </ListBox>
-        <clr:BoardControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5"/>
+        <clr:BoardControl x:Name="BoardControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5"/>
     </DockPanel>
  </Window>
