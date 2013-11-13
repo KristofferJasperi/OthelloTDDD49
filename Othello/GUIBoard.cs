@@ -9,92 +9,14 @@ using System.Threading.Tasks;
 
 namespace Othello
 {
-    public abstract class Board
-    {
-        protected int m_size;
-
-        protected Board(int size)
-        {
-            m_size = size;
-        }
-
-        /// <summary>
-        /// Gets the value of the field specified
-        /// by a row and column index.
-        /// </summary>
-        /// <param name="row">The row index</param>
-        /// <param name="col">The column index</param>
-        public abstract FieldValue GetValue(int row, int col);
-
-        /// <summary>
-        /// Sets a field to a value.
-        /// </summary>
-        /// <param name="value">The new field value</param>
-        /// <param name="row">The row index</param>
-        /// <param name="col">The column index</param>
-        public abstract void SetValue(FieldValue value, int row, int col);
-
-        /// <summary>
-        /// Gets a two dimensional enumerable of all field values.
-        /// The outermost enumerable contains the rows, each row
-        /// contains values for each column.
-        /// </summary>
-        public abstract IEnumerable<IEnumerable<FieldValue>> GetAllValues();
-
-        /// <summary>
-        /// Sets all fields value to empty.
-        /// </summary>
-        public void ClearBoard()
-        {
-            for (int row = 0; row < m_size; row++)
-            {
-                for (int col = 0; col < m_size; col++)
-                {
-                    SetValue(FieldValue.Empty, row, col);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Sets the starting field values
-        /// </summary>
-        public void SetStartValues()
-        {
-            var middle = m_size / 2;
-            SetValue(FieldValue.Black, middle - 1, middle - 1);
-            SetValue(FieldValue.Black, middle, middle);
-            SetValue(FieldValue.White, middle - 1, middle);
-            SetValue(FieldValue.White, middle, middle - 1);
-        }
-    }
-
-    public class AIBoard : Board
-    {
-        //TODO Fix
-        public AIBoard() : base(8) {}
-
-        public override FieldValue GetValue(int row, int col)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void SetValue(FieldValue value, int row, int col)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override IEnumerable<IEnumerable<FieldValue>> GetAllValues()
-        {
-            throw new NotImplementedException();
-        }
-    }
-
     /// <summary>
     /// Special class for GUIBoard. Contains Field objects which
     /// implements INotifyPropertyChanged interface.
     /// </summary>
-    public class GUIBoard : Board
+    public class GUIBoard //: Board
     {
+        protected int m_size;
+
         /// <summary>
         /// This method is called by the Set accessor of each property. 
         /// The CallerMemberName attribute that is applied to the optional propertyName 
@@ -132,9 +54,11 @@ namespace Othello
         /// Creates a GUIBoard.
         /// </summary>
         /// <param name="size"></param>
-        public GUIBoard(int size) : base(size)
+        public GUIBoard(int size)
         {
             Rows = new ObservableCollection<ObservableCollection<Field>>();
+            m_size = size;
+
             for (int row = 0; row < size; row++)
             {
                 var columns = new ObservableCollection<Field>();
@@ -147,16 +71,40 @@ namespace Othello
                 Rows.Add(columns);
             }
         }
-
+        /// <summary>
+        /// Sets all fields value to empty.
+        /// </summary>
+        public void ClearBoard()
+        {
+            for (int row = 0; row < m_size; row++)
+            {
+                for (int col = 0; col < m_size; col++)
+                {
+                    SetValue(FieldValue.Empty, row, col);
+                }
+            }
+        }
         /// <summary>
         /// Gets a value
         /// </summary>
         /// <param name="row"></param>
         /// <param name="col"></param>
         /// <returns></returns>
-        public override FieldValue GetValue(int row, int col)
+        public FieldValue GetValue(int row, int col)
         {
             return Rows[row][col].Value;
+        }
+
+        /// <summary>
+        /// Sets the starting field values
+        /// </summary>
+        public void SetStartValues()
+        {
+            var middle = m_size / 2;
+            SetValue(FieldValue.Black, middle - 1, middle - 1);
+            SetValue(FieldValue.Black, middle, middle);
+            SetValue(FieldValue.White, middle - 1, middle);
+            SetValue(FieldValue.White, middle, middle - 1);
         }
 
         /// <summary>
@@ -165,7 +113,7 @@ namespace Othello
         /// <param name="value"></param>
         /// <param name="row"></param>
         /// <param name="col"></param>
-        public override void SetValue(FieldValue value, int row, int col)
+        public void SetValue(FieldValue value, int row, int col)
         {
             Rows[row][col].Value = value;
         }
@@ -175,7 +123,7 @@ namespace Othello
         /// The outermost enumerable contains the rows, each row
         /// contains values for each column.
         /// </summary>
-        public override IEnumerable<IEnumerable<FieldValue>> GetAllValues()
+        public IEnumerable<IEnumerable<FieldValue>> GetAllValues()
         {
             return Rows.Select(row => row.Select(col => col.Value));
         }

@@ -17,13 +17,13 @@ namespace Othello
         public IPlayerController Player1 { get; set; }
         public IPlayerController Player2 { get; set; }
 
-        protected Board m_board;
-        public Board GetBoard()
+        protected GUIBoard m_board;
+        public GUIBoard GetBoard()
         {
             return m_board;
         }
 
-        public OthelloGame(Board board, IPlayerController player1, IPlayerController player2)
+        public OthelloGame(GUIBoard board, IPlayerController player1, IPlayerController player2)
         {
             m_board = board;
             Player1 = player1;
