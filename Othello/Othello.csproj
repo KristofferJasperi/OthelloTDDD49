@@ -69,7 +69,6 @@
     <Compile Include="BoardControl.xaml.cs">
       <DependentUpon>BoardControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BoardLogic.cs" />
     <Compile Include="Field.cs" />
     <Compile Include="FieldValue.cs" />
     <Compile Include="MainWindow.xaml.cs">

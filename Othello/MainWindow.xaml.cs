@@ -21,9 +21,9 @@ namespace Othello
     public partial class MainWindow : Window
     {
         private OthelloGame m_game;
-        private Board m_board;
-        private PlayerController m_player1;
-        private PlayerController m_player2;
+        private GUIBoard m_board;
+        private IPlayerController m_player1;
+        private IPlayerController m_player2;
 
         public MainWindow()
         {
@@ -32,7 +32,7 @@ namespace Othello
             m_player1 = new LocalController();
             m_player2 = new LocalController();
             m_game = new OthelloGame(m_board, m_player1, m_player2);
-            BoardControl.SetGame(m_board);
+            BoardControl.SetBoard(m_board);
         }
 
         private void ExitClicked(object sender, RoutedEventArgs e)

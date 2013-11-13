@@ -8,6 +8,9 @@ using System.Windows.Controls;
 
 namespace Othello
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public enum MoveType
     {
         AddPiece,
@@ -30,34 +33,34 @@ namespace Othello
     /// <summary>
     /// Abstract class for a PlayerController.
     /// </summary>
-    public abstract class PlayerController
+    public interface IPlayerController
     {
         /// <summary>
         /// Returns the next move from this controller. 
         /// </summary>
-        public abstract Move GetNextMove();
+        Move GetNextMove();
     }
 
     /// <summary>
     /// Implements a local controller.
     /// </summary>
-    public class LocalController : PlayerController
+    public class LocalController : IPlayerController
     {
         /// <summary>
         /// Gets the next move by listening for a move event.
         /// </summary>
-        public override Move GetNextMove()
+        public Move GetNextMove()
         {
             throw new NotImplementedException();
         }
     }
 
-    public class AIController : PlayerController
+    public class AIController : IPlayerController
     {
         /// <summary>
         /// Get the next move by calculating the best move.
         /// </summary>
-        public override Move GetNextMove()
+        public Move GetNextMove()
         {
             throw new NotImplementedException();
         }
