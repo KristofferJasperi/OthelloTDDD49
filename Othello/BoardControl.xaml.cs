@@ -22,24 +22,24 @@ namespace Othello
     {
         private Board m_board;
 
+        public delegate void MoveEventHandler(object sender, EventArgs e);
+
         public BoardControl()
         {
             InitializeComponent();
         }
 
-        public void SetBoard(Board board)
+        public void SetGame(Board board)
         {
             m_board = board;
-            this.MainCollection.DataContext = m_board;
+            this.MainCollection.DataContext = (GUIBoard)m_board;
+                   
         }
 
         private void BoardClicked(object sender, MouseButtonEventArgs e)
         {
             var field = ((Border)sender).Tag as Field;
-            if (field != null)
-            {
-                m_board.SetValue(FieldValue.Black, field.Row, field.Column);
-            }
+            field.Value = FieldValue.Black;
         }
     }
 }

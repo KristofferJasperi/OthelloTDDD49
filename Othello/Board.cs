@@ -41,6 +41,9 @@ namespace Othello
         /// </summary>
         public abstract IEnumerable<IEnumerable<FieldValue>> GetAllValues();
 
+        /// <summary>
+        /// Sets all fields value to empty.
+        /// </summary>
         public void ClearBoard()
         {
             for (int row = 0; row < m_size; row++)
@@ -52,6 +55,9 @@ namespace Othello
             }
         }
 
+        /// <summary>
+        /// Sets the starting field values
+        /// </summary>
         public void SetStartValues()
         {
             var middle = m_size / 2;
@@ -103,6 +109,10 @@ namespace Othello
         }
 
         private ObservableCollection<ObservableCollection<Field>> m_rows;
+
+        /// <summary>
+        /// Collection of fields.
+        /// </summary>
         public ObservableCollection<ObservableCollection<Field>> Rows {
             get
             {
@@ -118,6 +128,10 @@ namespace Othello
             }
         }
 
+        /// <summary>
+        /// Creates a GUIBoard.
+        /// </summary>
+        /// <param name="size"></param>
         public GUIBoard(int size) : base(size)
         {
             Rows = new ObservableCollection<ObservableCollection<Field>>();
@@ -134,16 +148,33 @@ namespace Othello
             }
         }
 
+        /// <summary>
+        /// Gets a value
+        /// </summary>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
+        /// <returns></returns>
         public override FieldValue GetValue(int row, int col)
         {
             return Rows[row][col].Value;
         }
 
+        /// <summary>
+        /// Sets a value
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="row"></param>
+        /// <param name="col"></param>
         public override void SetValue(FieldValue value, int row, int col)
         {
             Rows[row][col].Value = value;
         }
 
+        /// <summary>
+        /// Gets a two dimensional enumerable of all field values.
+        /// The outermost enumerable contains the rows, each row
+        /// contains values for each column.
+        /// </summary>
         public override IEnumerable<IEnumerable<FieldValue>> GetAllValues()
         {
             return Rows.Select(row => row.Select(col => col.Value));

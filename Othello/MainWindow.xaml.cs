@@ -22,13 +22,17 @@ namespace Othello
     {
         private OthelloGame m_game;
         private Board m_board;
+        private PlayerController m_player1;
+        private PlayerController m_player2;
 
         public MainWindow()
         {
             InitializeComponent();
             m_board = new GUIBoard(8);
-            m_game = new OthelloGame(m_board);
-            BoardControl.SetBoard(m_board);
+            m_player1 = new LocalController();
+            m_player2 = new LocalController();
+            m_game = new OthelloGame(m_board, m_player1, m_player2);
+            BoardControl.SetGame(m_board);
         }
 
         private void ExitClicked(object sender, RoutedEventArgs e)
@@ -37,9 +41,11 @@ namespace Othello
             Application.Current.Shutdown();
         }
 
+
         private void StartClicked(object sender, RoutedEventArgs e)
         {
             m_game.Restart();
+            m_game.Run();
         }
     }
 }

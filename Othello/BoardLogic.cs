@@ -9,6 +9,10 @@ namespace Othello
     public abstract class BoardLogic
     {
         protected Board m_board;
+        public Board GetBoard()
+        {
+            return m_board;
+        }
 
         public BoardLogic(Board board)
         {
