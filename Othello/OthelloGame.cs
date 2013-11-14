@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace Othello
 {
@@ -37,10 +36,16 @@ namespace Othello
 
         public void MakeMove(Move move)
         {
-            m_board.SetFieldValue(activePlayer.Color, move.Row, move.Column);
-            Update();
+            move.Color = activePlayer.Color;
+            move.Type = MoveType.AddPiece;
 
-            activePlayer = activePlayer == m_playerBlack ? m_playerWhite : m_playerBlack;
+            if(OthelloRules.IsValidMove(ref move, m_board))
+            {
+                m_board.SetFieldValue(move.Color, move.Row, move.Column);
+                Update();
+
+                activePlayer = activePlayer == m_playerBlack ? m_playerWhite : m_playerBlack;
+            }
         }
 
         private void Update()
