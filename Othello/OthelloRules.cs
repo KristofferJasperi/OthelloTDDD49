@@ -16,6 +16,7 @@ namespace Othello
         public const int up = -1;
         public const int down = 1;
 
+
         private static bool IsDirectionValid(ref Move move, ref IBoardReader board, int horDir, int vertDir)
         {
             int size = board.Size;
@@ -52,7 +53,8 @@ namespace Othello
             }
             return false;
         }
-       // private static bool IsLeftValid(FieldValue color, 
+
+
         public static bool IsValidMove(ref Move move, ref IBoardReader board)
         {
 
@@ -83,13 +85,6 @@ namespace Othello
             }
 
             return false;
-        }
-
-        //Flytta till typ OthelloGame?
-        public static void MakeMove(Move move)
-        {
-            throw new NotImplementedException();
-
         }
 
         public static List<Coords> GetValidMovesForColor(FieldValue color)

@@ -14,13 +14,13 @@ namespace Othello
 
     public class Board : IBoardReader
     {
-        private FieldValue[,] m_fields;
+        public FieldValue[,] Pieces { get; private set; }
         public int Size { get; private set; }
 
         public Board(int size)
         {
             Size = size;
-            m_fields = new FieldValue[size, size];
+            Pieces = new FieldValue[size, size];
         }
 
         public int CountBlacks
@@ -51,7 +51,7 @@ namespace Othello
                 throw new ArgumentOutOfRangeException("Row or column index out of range");
             }
 
-            return m_fields[row, column];
+            return Pieces[row, column];
         }
 
         public void SetFieldValue(FieldValue value, int row, int column)
@@ -61,7 +61,7 @@ namespace Othello
                 throw new ArgumentOutOfRangeException("Row or column index out of range");
             }
 
-            m_fields[row, column] = value;
+            Pieces[row, column] = value;
         }
 
         public void FlipPiece(int row, int column)
@@ -71,20 +71,20 @@ namespace Othello
                 throw new ArgumentOutOfRangeException("Row or column index out of range");
             }
 
-            var value = m_fields[row, column];
+            var value = Pieces[row, column];
             if (value != FieldValue.Black && value != FieldValue.White)
             {
                 throw new ArgumentException("No piece to flip!");
             }
 
-            m_fields[row, column] = value == FieldValue.Black ? 
+            Pieces[row, column] = value == FieldValue.Black ? 
                 FieldValue.White : FieldValue.Black;
         }
 
         public int CountByFieldValue(FieldValue value)
         {
             int count = 0;
-            foreach (var val in m_fields)
+            foreach (var val in Pieces)
             {
                 if (val == value)
                 {
@@ -101,10 +101,10 @@ namespace Othello
         public void SetStartValues()
         {
             int middle = Size / 2;
-            m_fields[middle - 1, middle - 1] = FieldValue.Black;
-            m_fields[middle, middle] = FieldValue.Black;
-            m_fields[middle - 1, middle] = FieldValue.White;
-            m_fields[middle, middle - 1] = FieldValue.White;
+            Pieces[middle - 1, middle - 1] = FieldValue.Black;
+            Pieces[middle, middle] = FieldValue.Black;
+            Pieces[middle - 1, middle] = FieldValue.White;
+            Pieces[middle, middle - 1] = FieldValue.White;
         }
     }
 }

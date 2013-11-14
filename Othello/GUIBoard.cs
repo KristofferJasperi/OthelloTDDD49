@@ -15,7 +15,7 @@ namespace Othello
     /// </summary>
     public class GUIBoard //: Board
     {
-        protected int m_size;
+        public int Size { get; private set; }
 
         /// <summary>
         /// This method is called by the Set accessor of each property. 
@@ -52,14 +52,14 @@ namespace Othello
 
         public void Update(FieldValue[,] fields)
         {
-            if (m_size * m_size != fields.Length)
+            if (Size * Size != fields.Length)
             {
                 throw new ArgumentException("Size mismatch", "fields");
             }
 
-            for (int row = 0; row < m_size; row++)
+            for (int row = 0; row < Size; row++)
             {
-                for (int col = 0; col < m_size; col++)
+                for (int col = 0; col < Size; col++)
                 {
                     Rows[row][col].Value = fields[row, col];
                 }
@@ -73,7 +73,7 @@ namespace Othello
         public GUIBoard(int size)
         {
             Rows = new ObservableCollection<ObservableCollection<Field>>();
-            m_size = size;
+            Size = size;
 
             for (int row = 0; row < size; row++)
             {
@@ -86,29 +86,6 @@ namespace Othello
 
                 Rows.Add(columns);
             }
-        }
-
-        /// <summary>
-        /// Sets the starting field values
-        /// </summary>
-        public void SetStartValues()
-        {
-            var middle = m_size / 2;
-            SetValue(FieldValue.Black, middle - 1, middle - 1);
-            SetValue(FieldValue.Black, middle, middle);
-            SetValue(FieldValue.White, middle - 1, middle);
-            SetValue(FieldValue.White, middle, middle - 1);
-        }
-
-        /// <summary>
-        /// Sets a value
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        public void SetValue(FieldValue value, int row, int col)
-        {
-            Rows[row][col].Value = value;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
