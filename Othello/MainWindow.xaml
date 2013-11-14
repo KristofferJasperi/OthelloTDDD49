@@ -3,6 +3,23 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:clr="clr-namespace:Othello"
         Title="Othello Test o git" Height="350" Width="525">
+    <Window.Resources>
+        <DataTemplate x:Key="CellTemplate" DataType="x:Type Othello.Field">
+            <Border PreviewMouseDown="BoardClicked" Tag="{Binding}" BorderBrush="Black" BorderThickness="1 1 1 1">
+                <Ellipse Fill="{Binding Color}" Margin="2" />
+            </Border>
+        </DataTemplate>
+        <DataTemplate x:Key="RowTemplate">
+            <ItemsControl ItemTemplate="{StaticResource CellTemplate}" 
+                          ItemsSource="{Binding}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Rows="1"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </DataTemplate>
+    </Window.Resources>
     <DockPanel>
         <TextBlock Background="Honeydew"  DockPanel.Dock="Top" FontSize="36">
             Othello
@@ -55,6 +72,15 @@
             <ListBoxItem>White A8</ListBoxItem>
             <ListBoxItem>Black A8</ListBoxItem>
         </ListBox>
-        <clr:BoardControl x:Name="BoardControl" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="5"/>
+        <ItemsControl ItemTemplate="{StaticResource RowTemplate}" 
+                      ItemsSource="{Binding Path=Rows}"
+                      x:Name="BoardControl"
+                      Background="Green">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="1"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
     </DockPanel>
  </Window>

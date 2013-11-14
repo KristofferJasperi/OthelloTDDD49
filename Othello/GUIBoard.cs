@@ -50,6 +50,22 @@ namespace Othello
             }
         }
 
+        public void Update(FieldValue[,] fields)
+        {
+            if (m_size * m_size != fields.Length)
+            {
+                throw new ArgumentException("Size mismatch", "fields");
+            }
+
+            for (int row = 0; row < m_size; row++)
+            {
+                for (int col = 0; col < m_size; col++)
+                {
+                    Rows[row][col].Value = fields[row, col];
+                }
+            }
+        }
+
         /// <summary>
         /// Creates a GUIBoard.
         /// </summary>
@@ -70,29 +86,6 @@ namespace Othello
 
                 Rows.Add(columns);
             }
-        }
-        /// <summary>
-        /// Sets all fields value to empty.
-        /// </summary>
-        public void ClearBoard()
-        {
-            for (int row = 0; row < m_size; row++)
-            {
-                for (int col = 0; col < m_size; col++)
-                {
-                    SetValue(FieldValue.Empty, row, col);
-                }
-            }
-        }
-        /// <summary>
-        /// Gets a value
-        /// </summary>
-        /// <param name="row"></param>
-        /// <param name="col"></param>
-        /// <returns></returns>
-        public FieldValue GetValue(int row, int col)
-        {
-            return Rows[row][col].Value;
         }
 
         /// <summary>
@@ -116,16 +109,6 @@ namespace Othello
         public void SetValue(FieldValue value, int row, int col)
         {
             Rows[row][col].Value = value;
-        }
-
-        /// <summary>
-        /// Gets a two dimensional enumerable of all field values.
-        /// The outermost enumerable contains the rows, each row
-        /// contains values for each column.
-        /// </summary>
-        public IEnumerable<IEnumerable<FieldValue>> GetAllValues()
-        {
-            return Rows.Select(row => row.Select(col => col.Value));
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

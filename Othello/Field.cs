@@ -79,6 +79,23 @@ namespace Othello
             }
         }
 
+        private Brush m_backgroundColor;
+        public Brush BackgroundColor
+        {
+            get
+            {
+                return m_backgroundColor;
+            }
+            private set
+            {
+                if (m_backgroundColor != value)
+                {
+                    m_backgroundColor = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
     }
 }

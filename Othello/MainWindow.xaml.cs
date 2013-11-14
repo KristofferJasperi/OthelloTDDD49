@@ -46,7 +46,9 @@ namespace Othello
             m_player1 = new Player() { Type = PlayerType.Player, Color = FieldValue.Black };
             m_player2 = new Player() { Type = PlayerType.Player, Color = FieldValue.White };
             m_game = new OthelloGame(m_board);
-            BoardControl.MainCollection.DataContext = m_board;
+            BoardControl.DataContext = m_board;
+
+            m_waitForPlayer = true;
         }
 
         private void ExitClicked(object sender, RoutedEventArgs e)
@@ -55,9 +57,14 @@ namespace Othello
             Application.Current.Shutdown();
         }
 
-        private static void BoardClicked()
+        private void BoardClicked(object sender, MouseEventArgs e)
         {
-            throw new NotImplementedException();
+            var field = ((Border)sender).Tag as Field;
+            field.Value = FieldValue.Black;
+
+            if (m_waitForPlayer)
+            {
+            }
         }
 
 
