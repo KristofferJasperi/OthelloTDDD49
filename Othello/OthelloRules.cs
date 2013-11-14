@@ -8,6 +8,10 @@ namespace Othello
 {
     public class OthelloRules
     {
+        public OthelloRules(Board board)
+        {
+        }
+
         public bool IsValidMove(Move move)
         {
             throw new NotImplementedException();

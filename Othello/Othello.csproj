@@ -61,6 +61,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Board.cs" />
+    <Compile Include="Coords.cs" />
     <Compile Include="GUIBoard.cs" />
     <Compile Include="Field.cs" />
     <Compile Include="FieldValue.cs" />
@@ -71,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="OthelloGame.cs" />
+    <Compile Include="OthelloRules.cs" />
     <Compile Include="PlayerController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
