@@ -45,7 +45,7 @@ namespace Othello
             m_board = new GUIBoard(8);
             m_player1 = new Player() { Type = PlayerType.Player, Color = FieldValue.Black };
             m_player2 = new Player() { Type = PlayerType.Player, Color = FieldValue.White };
-            m_game = new OthelloGame(m_board);
+            //m_game = new OthelloGame(m_board);
             BoardControl.DataContext = m_board;
 
             m_waitForPlayer = true;
@@ -70,7 +70,7 @@ namespace Othello
 
         private void StartClicked(object sender, RoutedEventArgs e)
         {
-            m_game.Restart();
+            //m_game.Restart();
         }
     }
 }

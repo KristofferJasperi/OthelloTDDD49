@@ -6,14 +6,20 @@ using System.Threading.Tasks;
 
 namespace Othello
 {
-    public class Board
+    public interface IBoardReader
+    {
+        FieldValue GetFieldValue(int row, int column);
+        int Size {get;}
+    }
+
+    public class Board : IBoardReader
     {
         private FieldValue[,] m_fields;
-        private int m_size;
+        public int Size { get; private set; }
 
         public Board(int size)
         {
-            m_size = size;
+            Size = size;
             m_fields = new FieldValue[size, size];
         }
 
@@ -35,7 +41,7 @@ namespace Othello
 
         private bool IsValidCoordinates(int row, int column)
         {
-            return row >= 0 && row < m_size && column >= 0 && column < m_size;
+            return row >= 0 && row < Size && column >= 0 && column < Size;
         }
 
         public FieldValue GetFieldValue(int row, int column)
@@ -50,7 +56,7 @@ namespace Othello
 
         public void SetFieldValue(FieldValue value, int row, int column)
         {
-            if (!IsValidCoordinates(row, column)
+            if (!IsValidCoordinates(row, column))
             {
                 throw new ArgumentOutOfRangeException("Row or column index out of range");
             }
@@ -94,7 +100,7 @@ namespace Othello
         /// </summary>
         public void SetStartValues()
         {
-            int middle = m_size / 2;
+            int middle = Size / 2;
             m_fields[middle - 1, middle - 1] = FieldValue.Black;
             m_fields[middle, middle] = FieldValue.Black;
             m_fields[middle - 1, middle] = FieldValue.White;
