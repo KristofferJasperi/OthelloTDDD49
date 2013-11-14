@@ -46,6 +46,8 @@ namespace Othello
     /// </summary>
     public class LocalController : IPlayerController
     {
+        public List<Move> MovesToMake { get; set; }
+
         /// <summary>
         /// Gets the next move by listening for a move event.
         /// </summary>
