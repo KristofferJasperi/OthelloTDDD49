@@ -9,12 +9,12 @@ namespace Othello
 {
     public class OthelloRules
     {
-        public static const int left = -1;
-        public static const int right = -1;
-        public static const int none = 0; 
+        public const int left = -1;
+        public const int right = -1;
+        public const int none = 0; 
         
-        public static const int up = -1;
-        public static const int down = 1;
+        public const int up = -1;
+        public const int down = 1;
 
         private static bool IsDirectionValid(ref Move move, ref IBoardReader board, int horDir, int vertDir)
         {
