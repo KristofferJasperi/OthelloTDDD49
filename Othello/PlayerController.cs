@@ -29,13 +29,12 @@ namespace Othello
         public MoveType Type { get; set; }
         public FieldValue Color { get; set; }
 
-        public Move(int col, int row, MoveType type, FieldValue color)
+        public Move() { }
+
+        public Move(int col, int row)
         {
             Column = col;
-            Row = row;
-            Type = type;
-            Color = color;
-            
+            Row = row;           
         }
     }
 

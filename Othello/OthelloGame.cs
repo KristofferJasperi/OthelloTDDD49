@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Othello
 {
@@ -13,11 +14,19 @@ namespace Othello
     {
         private GUIBoard m_guiBoard;
         private Board m_board;
+        private Player m_playerBlack;
+        private Player m_playerWhite;
+        private Player activePlayer;
 
         public OthelloGame(ref GUIBoard guiBoard)
         {
             m_guiBoard = guiBoard;
             m_board = new Board(m_guiBoard.Size);
+
+            m_playerBlack = new Player() { Type = PlayerType.Player, Color = FieldValue.Black };
+            m_playerWhite = new Player() { Type = PlayerType.Player, Color = FieldValue.White };
+
+            activePlayer = m_playerBlack;
         }
 
         public void Restart()
@@ -28,8 +37,10 @@ namespace Othello
 
         public void MakeMove(Move move)
         {
-            m_board.SetFieldValue(move.Color, move.Row, move.Column);
+            m_board.SetFieldValue(activePlayer.Color, move.Row, move.Column);
             Update();
+
+            activePlayer = activePlayer == m_playerBlack ? m_playerWhite : m_playerBlack;
         }
 
         private void Update()

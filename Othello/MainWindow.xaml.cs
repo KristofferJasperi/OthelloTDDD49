@@ -34,21 +34,13 @@ namespace Othello
     {
         private OthelloGame m_game;
         private GUIBoard m_board;
-        private Player m_player1;
-        private Player m_player2;
-        private bool m_waitForPlayer;
-        private bool m_waitForComputer;
 
         public MainWindow()
         {
             InitializeComponent();
             m_board = new GUIBoard(8);
-            m_player1 = new Player() { Type = PlayerType.Player, Color = FieldValue.Black };
-            m_player2 = new Player() { Type = PlayerType.Player, Color = FieldValue.White };
             m_game = new OthelloGame(ref m_board);
             BoardControl.DataContext = m_board;
-
-            m_waitForPlayer = true;
         }
 
         private void ExitClicked(object sender, RoutedEventArgs e)
@@ -62,7 +54,7 @@ namespace Othello
             var field = ((Border)sender).Tag as Field;
            // field.Value = FieldValue.Black;
 
-            m_game.MakeMove(new Move(field.Column, field.Row, MoveType.AddPiece, FieldValue.Black));
+            m_game.MakeMove(new Move(field.Column, field.Row));
         }
 
 
