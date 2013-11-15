@@ -39,7 +39,7 @@ namespace Othello
         {
             InitializeComponent();
             m_board = new GUIBoard(8);
-            m_game = new OthelloGame(ref m_board);
+            m_game = new OthelloGame(m_board);
             BoardControl.DataContext = m_board;
         }
 

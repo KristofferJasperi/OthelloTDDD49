@@ -17,7 +17,7 @@ namespace Othello
         private Player m_playerWhite;
         private Player activePlayer;
 
-        public OthelloGame(ref GUIBoard guiBoard)
+        public OthelloGame(GUIBoard guiBoard)
         {
             m_guiBoard = guiBoard;
             m_board = new Board(m_guiBoard.Size);
@@ -39,7 +39,7 @@ namespace Othello
             move.Color = activePlayer.Color;
             move.Type = MoveType.AddPiece;
 
-            if(OthelloRules.IsValidMove(ref move, m_board))
+            if(OthelloRules.IsValidMove(move, m_board))
             {
                 m_board.SetFieldValue(move.Color, move.Row, move.Column);
                 Update();

@@ -8,42 +8,15 @@ using System.Windows;
 
 
 namespace Othello
-{
-    public struct Direction
-    {
-        private readonly int x;
-        private readonly int y;
-
-        public int X { get { return x; } }
-        public int Y { get { return y; } }
-
-        public Direction(int x, int y)
-        {
-            this.x = x;
-            this.y = y;
-        }
-    };
-    
-
+{  
     public static class OthelloRules
-    {
-
-        private static Direction left = new Direction(-1, 0);
-        private static Direction right = new Direction(1, 0);
-        private static Direction up = new Direction(0, -1);
-        private static Direction down = new Direction(0, 1);
-
-        private static Direction leftUp = new Direction(-1, -1);
-        private static Direction leftDown = new Direction(-1, 1);
-        private static Direction rightUp = new Direction(1, -1);
-        private static Direction rightDown = new Direction(1, 1);
-     
-
+    {   
         private static bool IsValidRange(int x, int y, int size)
         {
             return x >= 0 && x < size && y >= 0 && y < size;
         }
-        private static bool IsDirectionValid(ref Move move, ref IBoardReader board, Direction direction)
+
+        private static bool IsDirectionValid(ref Move move, ref IBoardReader board, Coords direction)
         {
             int size = board.Size;
             int x = move.Column;
@@ -89,39 +62,39 @@ namespace Othello
         }
 
 
-        public static bool IsValidMove(ref Move move, IBoardReader board)
+        public static bool IsValidMove(Move move, IBoardReader board)
         {
-            if (IsDirectionValid(ref move, ref board, leftUp))
+            if (IsDirectionValid(ref move, ref board, Directions.Up))
             {
                 return true;
             }
-            if (IsDirectionValid(ref move, ref board, leftDown))
+            if (IsDirectionValid(ref move, ref board, Directions.UpRight))
             {
                 return true;
             }
-            if (IsDirectionValid(ref move, ref board, left))
+            if (IsDirectionValid(ref move, ref board, Directions.Right))
             {
                 return true;
             }            
-            if (IsDirectionValid(ref move, ref board, rightUp))
+            if (IsDirectionValid(ref move, ref board, Directions.DownRight))
             {
                 return true;
             }
-            if (IsDirectionValid(ref move, ref board, rightDown))
+            if (IsDirectionValid(ref move, ref board, Directions.Down))
             {
                 return true;
             }
-            if (IsDirectionValid(ref move, ref board, right))
+            if (IsDirectionValid(ref move, ref board, Directions.DownLeft))
             {
                 return true;
             } 
             
-            if (IsDirectionValid(ref move, ref board, down))
+            if (IsDirectionValid(ref move, ref board, Directions.Left))
             {
                 return true;
             }
 
-            if (IsDirectionValid(ref move, ref board, up))
+            if (IsDirectionValid(ref move, ref board, Directions.UpLeft))
             {
                 return true;
             }

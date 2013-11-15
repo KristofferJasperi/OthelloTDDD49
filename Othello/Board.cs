@@ -11,7 +11,7 @@ namespace Othello
         FieldValue GetFieldValue(int row, int column);
         int Size {get;}
     }
-
+    
     public class Board : IBoardReader
     {
         public FieldValue[,] Pieces { get; private set; }
