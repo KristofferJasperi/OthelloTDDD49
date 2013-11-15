@@ -9,20 +9,41 @@ using System.Windows;
 
 namespace Othello
 {
-    public class OthelloRules
+    public struct Direction
     {
-        public const int left = -1;
-        public const int right = 1;
-        public const int none = 0; 
-        
-        public const int up = -1;
-        public const int down = 1;
+        private readonly int x;
+        private readonly int y;
+
+        public int X { get { return x; } }
+        public int Y { get { return y; } }
+
+        public Direction(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+    };
+    
+
+    public static class OthelloRules
+    {
+
+        private static Direction left = new Direction(-1, 0);
+        private static Direction right = new Direction(1, 0);
+        private static Direction up = new Direction(0, -1);
+        private static Direction down = new Direction(0, 1);
+
+        private static Direction leftUp = new Direction(-1, -1);
+        private static Direction leftDown = new Direction(-1, 1);
+        private static Direction rightUp = new Direction(1, -1);
+        private static Direction rightDown = new Direction(1, 1);
+     
 
         private static bool IsValidRange(int x, int y, int size)
         {
             return x >= 0 && x < size && y >= 0 && y < size;
         }
-        private static bool IsDirectionValid(ref Move move, ref IBoardReader board, int horDir, int vertDir)
+        private static bool IsDirectionValid(ref Move move, ref IBoardReader board, Direction direction)
         {
             int size = board.Size;
             int x = move.Column;
@@ -35,23 +56,18 @@ namespace Othello
                 return false;
             }
 
-            if (!IsValidRange(x + horDir, y + vertDir, board.Size))
+            if (!IsValidRange(x + direction.X, y + direction.Y, board.Size))
             {
                 return false;
             }
 
-            if (board.GetFieldValue(y + vertDir, x + horDir) != oppositeColor)
+            if (board.GetFieldValue(y + direction.Y, x + direction.X) != oppositeColor)
             {
                 return false;
             }
 
-            x += 2 * horDir;
-            y += 2 * vertDir;
-
-            if (!IsValidRange(x, y, board.Size))
-            {
-                return false;
-            }
+            x += 2 * direction.X;
+            y += 2 * direction.Y;
 
             while(IsValidRange(x, y, board.Size))
             {
@@ -63,8 +79,8 @@ namespace Othello
                 {
                     return true;
                 }
-                x += horDir;
-                y += vertDir;
+                x += direction.X;
+                y += direction.Y;
 
 
             }
@@ -75,37 +91,37 @@ namespace Othello
 
         public static bool IsValidMove(ref Move move, IBoardReader board)
         {
-            if (IsDirectionValid(ref move, ref board, left, up))
+            if (IsDirectionValid(ref move, ref board, leftUp))
             {
                 return true;
             }
-            if (IsDirectionValid(ref move, ref board, left, down))
+            if (IsDirectionValid(ref move, ref board, leftDown))
             {
                 return true;
             }
-            if (IsDirectionValid(ref move, ref board, left, none))
+            if (IsDirectionValid(ref move, ref board, left))
             {
                 return true;
             }            
-            if (IsDirectionValid(ref move, ref board, right, up))
+            if (IsDirectionValid(ref move, ref board, rightUp))
             {
                 return true;
             }
-            if (IsDirectionValid(ref move, ref board, right, down))
+            if (IsDirectionValid(ref move, ref board, rightDown))
             {
                 return true;
             }
-            if (IsDirectionValid(ref move, ref board, right, none))
+            if (IsDirectionValid(ref move, ref board, right))
             {
                 return true;
             } 
             
-            if (IsDirectionValid(ref move, ref board, none, down))
+            if (IsDirectionValid(ref move, ref board, down))
             {
                 return true;
             }
 
-            if (IsDirectionValid(ref move, ref board, none, up))
+            if (IsDirectionValid(ref move, ref board, up))
             {
                 return true;
             }
