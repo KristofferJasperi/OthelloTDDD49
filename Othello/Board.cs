@@ -14,13 +14,13 @@ namespace Othello
     
     public class Board : IBoardReader
     {
-        public FieldValue[,] Pieces { get; private set; }
+        public FieldValue[,] Fields { get; private set; }
         public int Size { get; private set; }
 
         public Board(int size)
         {
             Size = size;
-            Pieces = new FieldValue[size, size];
+            Fields = new FieldValue[size, size];
         }
 
         public int CountBlacks
@@ -51,7 +51,7 @@ namespace Othello
                 throw new ArgumentOutOfRangeException("Row or column index out of range");
             }
 
-            return Pieces[row, column];
+            return Fields[row, column];
         }
 
         public void SetFieldValue(FieldValue value, int row, int column)
@@ -61,7 +61,7 @@ namespace Othello
                 throw new ArgumentOutOfRangeException("Row or column index out of range");
             }
 
-            Pieces[row, column] = value;
+            Fields[row, column] = value;
         }
 
         public void FlipPiece(int row, int column)
@@ -71,20 +71,20 @@ namespace Othello
                 throw new ArgumentOutOfRangeException("Row or column index out of range");
             }
 
-            var value = Pieces[row, column];
+            var value = Fields[row, column];
             if (value != FieldValue.Black && value != FieldValue.White)
             {
                 throw new ArgumentException("No piece to flip!");
             }
 
-            Pieces[row, column] = value == FieldValue.Black ? 
+            Fields[row, column] = value == FieldValue.Black ? 
                 FieldValue.White : FieldValue.Black;
         }
 
         public int CountByFieldValue(FieldValue value)
         {
             int count = 0;
-            foreach (var val in Pieces)
+            foreach (var val in Fields)
             {
                 if (val == value)
                 {
@@ -101,10 +101,21 @@ namespace Othello
         public void SetStartValues()
         {
             int middle = Size / 2;
-            Pieces[middle - 1, middle - 1] = FieldValue.Black;
-            Pieces[middle, middle] = FieldValue.Black;
-            Pieces[middle - 1, middle] = FieldValue.White;
-            Pieces[middle, middle - 1] = FieldValue.White;
+            Fields[middle - 1, middle - 1] = FieldValue.Black;
+            Fields[middle, middle] = FieldValue.Black;
+            Fields[middle - 1, middle] = FieldValue.White;
+            Fields[middle, middle - 1] = FieldValue.White;
+        }
+
+        public void ClearBoard()
+        {
+            for (int row = 0; row < Size; ++row)
+            {
+                for (int col = 0; col < Size; ++col)
+                {
+                    Fields[row, col] = FieldValue.Empty;
+                }
+            }
         }
     }
 }

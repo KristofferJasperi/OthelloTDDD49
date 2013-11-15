@@ -14,8 +14,8 @@ namespace Othello
             Y = y;
         }
 
-        public int X { get; set; }
-        public int Y { get; set; }
+        public int X { get; private set; }
+        public int Y { get; private set; }
 
         public override bool Equals(object obj)
         {
@@ -25,6 +25,16 @@ namespace Othello
                 return false;
             else
                 return this.X == other.X && this.Y == other.Y;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+        public bool IsInsideBoard(int boardSize)
+        {
+            return X >= 0 && X < boardSize && Y >= 0 && Y < boardSize;
         }
 
         public static Coords operator +(Coords a, Coords b)

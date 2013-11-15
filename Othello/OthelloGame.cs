@@ -50,7 +50,7 @@ namespace Othello
 
         private void Update()
         {
-            m_guiBoard.Update(m_board.Pieces);
+            m_guiBoard.Update(m_board.Fields);
         }
     }
 }
