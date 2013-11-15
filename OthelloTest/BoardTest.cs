@@ -45,7 +45,7 @@ namespace OthelloTest
         {
             m_board = new Board(8);
             m_board.SetFieldValue(FieldValue.Black, new Coords(0, 0));
-            m_board.FlipPiece(0, 0);
+            m_board.FlipPiece(new Coords(0, 0));
             Assert.AreEqual(FieldValue.White, m_board.GetFieldValue(new Coords(0, 0)));
         }
 
