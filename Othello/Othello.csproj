@@ -75,7 +75,7 @@
   <ItemGroup>
     <Compile Include="OthelloGame.cs" />
     <Compile Include="OthelloRules.cs" />
-    <Compile Include="PlayerController.cs" />
+    <Compile Include="MoveType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

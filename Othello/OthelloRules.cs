@@ -17,38 +17,11 @@ namespace Othello
         }
 
         /// <summary>
-        /// Flips one direction. Make sure the direction is a valid direction
-        /// before flipping. Otherwise it will flip all pieces.
-        /// 
-        /// TODO: Should this method check if the direction is valid first?
-        /// It propably should'nt because then we have to check the direction
-        /// twice.
-        /// </summary>
-        private static void FlipDirection(FieldValue color, Coords start, Coords dir, Board board)
-        {
-            Coords current = start + dir;
-            FieldValue oppositeColor = color.OppositeColor();
-            current += dir;
-            FieldValue currentValue;
-            while (current.IsInsideBoard(board.Size))
-            {
-                currentValue = board.GetFieldValue(current);
-                if (currentValue == color || currentValue == FieldValue.Empty)
-                {
-                    break;
-                }
-
-                board.FlipPiece(current);
-                current += dir;
-             }
-        }
-
-        /// <summary>
         /// Jag la till lite hjälpsaker i Coords och color för att kunna
         /// göra koden mindre. Det minskade lite code metrics-värden,
         /// bla Cyclomatic Complexity och LOC.
         /// </summary>
-        private static bool IsDirectionValid2(FieldValue color, Coords start, Coords dir, IBoardReader board)
+        private static bool IsDirectionValid(FieldValue color, Coords start, Coords dir, IBoardReader board)
         {
             bool isValid = false;
             Coords current = start + dir;            
@@ -79,92 +52,24 @@ namespace Othello
             return isValid;
         }
 
-        private static bool IsDirectionValid(ref Move move, ref IBoardReader board, Coords direction)
+
+        public static List<Coords> GetPossibleDirections(FieldValue color, Coords coords, IBoardReader board)
         {
-            int size = board.Size;
-            int x = move.Column;
-            int y = move.Row;
-            FieldValue color = move.Color;
-            FieldValue oppositeColor = color == FieldValue.White ? FieldValue.Black : FieldValue.White;
+            var possibleDirections = new List<Coords>();
 
-            if (color == FieldValue.Empty)
+            foreach (var direction in Directions.All)
             {
-                return false;
-            }
-
-            if (!IsValidRange(x + direction.X, y + direction.Y, board.Size))
-            {
-                return false;
-            }
-
-            if (board.GetFieldValue(y + direction.Y, x + direction.X) != oppositeColor)
-            {
-                return false;
-            }
-
-            x += 2 * direction.X;
-            y += 2 * direction.Y;
-
-            while(IsValidRange(x, y, board.Size))
-            {
-                if (board.GetFieldValue(y, x) == FieldValue.Empty)
+                if (IsDirectionValid(color, coords, direction, board))
                 {
-                    return false;
+                    possibleDirections.Add(direction);
                 }
-                if (board.GetFieldValue(y, x) == move.Color)
-                {
-                    return true;
-                }
-                x += direction.X;
-                y += direction.Y;
-
-
             }
-
-            return false;
+            return possibleDirections;
         }
 
-
-        public static bool IsValidMove(Move move, IBoardReader board)
+        public static bool IsValidMove(FieldValue color, Coords coords, IBoardReader board)
         {
-            if (IsDirectionValid(ref move, ref board, Directions.Up))
-            {
-                return true;
-            }
-            if (IsDirectionValid(ref move, ref board, Directions.UpRight))
-            {
-                return true;
-            }
-            if (IsDirectionValid(ref move, ref board, Directions.Right))
-            {
-                return true;
-            }            
-            if (IsDirectionValid(ref move, ref board, Directions.DownRight))
-            {
-                return true;
-            }
-            if (IsDirectionValid(ref move, ref board, Directions.Down))
-            {
-                return true;
-            }
-            if (IsDirectionValid(ref move, ref board, Directions.DownLeft))
-            {
-                return true;
-            } 
-            
-            if (IsDirectionValid(ref move, ref board, Directions.Left))
-            {
-                return true;
-            }
-
-            if (IsDirectionValid(ref move, ref board, Directions.UpLeft))
-            {
-                return true;
-            }
-
-
-
-            return false;
+            return GetPossibleDirections(color, coords, board).Count != 0;
         }
 
         public static List<Coords> GetValidMovesForColor(FieldValue color)

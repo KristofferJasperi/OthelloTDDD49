@@ -16,5 +16,9 @@ namespace Othello
         public static readonly Coords DownLeft = new Coords(-1, 1);
         public static readonly Coords Left = new Coords(-1, 0);
         public static readonly Coords UpLeft = new Coords(-1, -1);
+
+
+        public static readonly List<Coords> All =
+            new List<Coords> { Up, UpRight, Right, DownRight, Down, DownLeft, Left, UpLeft };
     }
 }

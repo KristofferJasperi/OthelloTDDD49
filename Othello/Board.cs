@@ -8,7 +8,6 @@ namespace Othello
 {
     public interface IBoardReader
     {
-        FieldValue GetFieldValue(int row, int column);
         FieldValue GetFieldValue(Coords coords);
         int Size {get;}
     }
@@ -40,7 +39,7 @@ namespace Othello
             }
         }
         
-        public FieldValue GetFieldValue(int row, int column)
+        private FieldValue GetFieldValue(int row, int column)
         {
             if (!Coords.IsInsideBoard(row, column, Size))
             {
@@ -52,10 +51,10 @@ namespace Othello
 
         public FieldValue GetFieldValue(Coords coords)
         {
-            return GetFieldValue(coords.X, coords.Y);
+            return GetFieldValue(coords.Y, coords.X);
         }
 
-        public void SetFieldValue(FieldValue value, int row, int column)
+        private void SetFieldValue(FieldValue value, int row, int column)
         {
             if (!Coords.IsInsideBoard(row, column, Size))
             {
@@ -65,7 +64,12 @@ namespace Othello
             Fields[row, column] = value;
         }
 
-        public void FlipPiece(int row, int column)
+        public void SetFieldValue(FieldValue value, Coords coords)
+        {
+            SetFieldValue(value, coords.Y, coords.X);
+        }
+
+        private void FlipPiece(int row, int column)
         {
             if (!Coords.IsInsideBoard(row, column, Size))
             {
@@ -83,7 +87,7 @@ namespace Othello
 
         public void FlipPiece(Coords coords)
         {
-            FlipPiece(coords.X, coords.Y);
+            FlipPiece(coords.Y, coords.X);
         }
 
         public int CountByFieldValue(FieldValue value)

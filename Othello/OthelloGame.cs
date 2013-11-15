@@ -34,14 +34,52 @@ namespace Othello
             Update();
         }
 
-        public void MakeMove(Move move)
+        /// <summary>
+        /// Flips one direction. Make sure the direction is a valid direction
+        /// before flipping. Otherwise it will flip all pieces.
+        /// 
+        /// TODO: Should this method check if the direction is valid first?
+        /// It propably should'nt because then we have to check the direction
+        /// twice.
+        /// </summary>
+        private void FlipDirection(FieldValue color, Coords start, Coords dir)
         {
-            move.Color = activePlayer.Color;
-            move.Type = MoveType.AddPiece;
-
-            if(OthelloRules.IsValidMove(move, m_board))
+            Coords current = start + dir;
+            FieldValue oppositeColor = color.OppositeColor();
+            FieldValue currentValue;
+            while (current.IsInsideBoard(m_board.Size))
             {
-                m_board.SetFieldValue(move.Color, move.Row, move.Column);
+                currentValue = m_board.GetFieldValue(current);
+                if (currentValue == FieldValue.Empty)
+                {
+                    throw new InvalidOperationException("Tried to flip invalid direction.");
+                }
+                if (currentValue == color)
+                {
+                    break;
+                }
+
+                m_board.FlipPiece(current);
+                current += dir;
+            }
+        }
+
+
+        public void MakeMove(Coords coords)
+        {
+            FieldValue color = activePlayer.Color;
+
+            var possibleDirection = OthelloRules.GetPossibleDirections(color, coords, m_board);
+
+
+            if(possibleDirection.Count != 0)
+            {
+                foreach (var dir in possibleDirection)
+                {
+                    FlipDirection(color, coords, dir);
+                }
+                m_board.SetFieldValue(color, coords);
+
                 Update();
 
                 activePlayer = activePlayer == m_playerBlack ? m_playerWhite : m_playerBlack;
