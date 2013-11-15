@@ -30,6 +30,9 @@ namespace Othello
 
         public void Restart()
         {
+            activePlayer = m_playerBlack;
+
+            m_board.ClearBoard();
             m_board.SetStartValues();
             Update();
         }
