@@ -12,4 +12,12 @@ namespace Othello
         Black,
         White
     }
+
+    public static class FieldValueExtensions
+    {
+        public static FieldValue OppositeColor(this FieldValue value)
+        {
+            return value == FieldValue.White ? FieldValue.Black : FieldValue.White;
+        }
+    }
 }

@@ -16,6 +16,69 @@ namespace Othello
             return x >= 0 && x < size && y >= 0 && y < size;
         }
 
+        /// <summary>
+        /// Flips one direction. Make sure the direction is a valid direction
+        /// before flipping. Otherwise it will flip all pieces.
+        /// 
+        /// TODO: Should this method check if the direction is valid first?
+        /// It propably should'nt because then we have to check the direction
+        /// twice.
+        /// </summary>
+        private static void FlipDirection(FieldValue color, Coords start, Coords dir, Board board)
+        {
+            Coords current = start + dir;
+            FieldValue oppositeColor = color.OppositeColor();
+            current += dir;
+            FieldValue currentValue;
+            while (current.IsInsideBoard(board.Size))
+            {
+                currentValue = board.GetFieldValue(current);
+                if (currentValue == color || currentValue == FieldValue.Empty)
+                {
+                    break;
+                }
+
+                board.FlipPiece(current);
+                current += dir;
+             }
+        }
+
+        /// <summary>
+        /// Jag la till lite hjälpsaker i Coords och color för att kunna
+        /// göra koden mindre. Det minskade lite code metrics-värden,
+        /// bla Cyclomatic Complexity och LOC.
+        /// </summary>
+        private static bool IsDirectionValid2(FieldValue color, Coords start, Coords dir, IBoardReader board)
+        {
+            bool isValid = false;
+            Coords current = start + dir;            
+            FieldValue oppositeColor = color.OppositeColor();
+
+            //Make sure next is oppositecolor, otherwise move is invalid.
+            if(current.IsInsideBoard(board.Size) && board.GetFieldValue(current) == oppositeColor)
+            {
+                current += dir;
+                while(current.IsInsideBoard(board.Size))
+                {
+                    //Found one of ours, direction is valid, break
+                    if (board.GetFieldValue(current) == color)
+                    {
+                        isValid = true;
+                        break;
+                    }
+                    //Did not find one of ours, direction is invalid, break.
+                    else if(board.GetFieldValue(current) == FieldValue.Empty)
+                    {
+                        break;
+                    }
+                    //Else, continue looking
+                    current += dir;
+                }
+            }
+
+            return isValid;
+        }
+
         private static bool IsDirectionValid(ref Move move, ref IBoardReader board, Coords direction)
         {
             int size = board.Size;

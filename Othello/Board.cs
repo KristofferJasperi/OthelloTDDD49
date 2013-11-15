@@ -9,6 +9,7 @@ namespace Othello
     public interface IBoardReader
     {
         FieldValue GetFieldValue(int row, int column);
+        FieldValue GetFieldValue(Coords coords);
         int Size {get;}
     }
     
@@ -38,15 +39,10 @@ namespace Othello
                 return CountByFieldValue(FieldValue.White);
             }
         }
-
-        private bool IsValidCoordinates(int row, int column)
-        {
-            return row >= 0 && row < Size && column >= 0 && column < Size;
-        }
-
+        
         public FieldValue GetFieldValue(int row, int column)
         {
-            if (!IsValidCoordinates(row, column))
+            if (!Coords.IsInsideBoard(row, column, Size))
             {
                 throw new ArgumentOutOfRangeException("Row or column index out of range");
             }
@@ -54,9 +50,14 @@ namespace Othello
             return Fields[row, column];
         }
 
+        public FieldValue GetFieldValue(Coords coords)
+        {
+            return GetFieldValue(coords.X, coords.Y);
+        }
+
         public void SetFieldValue(FieldValue value, int row, int column)
         {
-            if (!IsValidCoordinates(row, column))
+            if (!Coords.IsInsideBoard(row, column, Size))
             {
                 throw new ArgumentOutOfRangeException("Row or column index out of range");
             }
@@ -66,7 +67,7 @@ namespace Othello
 
         public void FlipPiece(int row, int column)
         {
-            if (!IsValidCoordinates(row, column))
+            if (!Coords.IsInsideBoard(row, column, Size))
             {
                 throw new ArgumentOutOfRangeException("Row or column index out of range");
             }
@@ -77,8 +78,12 @@ namespace Othello
                 throw new ArgumentException("No piece to flip!");
             }
 
-            Fields[row, column] = value == FieldValue.Black ? 
-                FieldValue.White : FieldValue.Black;
+            Fields[row, column] = value.OppositeColor();
+        }
+
+        public void FlipPiece(Coords coords)
+        {
+            FlipPiece(coords.X, coords.Y);
         }
 
         public int CountByFieldValue(FieldValue value)
