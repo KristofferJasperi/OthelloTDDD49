@@ -41,10 +41,5 @@ namespace Othello
         {
             return new Coords(a.X + b.X, a.Y + b.Y);
         }
-
-        public static bool IsInsideBoard(int row, int column, int boardSize)
-        {
-            return row >= 0 && row < boardSize && column >= 0 && column < boardSize;
-        }
     }
 }

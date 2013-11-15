@@ -54,7 +54,7 @@ namespace Othello
             var field = ((Border)sender).Tag as Field;
            // field.Value = FieldValue.Black;
 
-            m_game.MakeMove(new Coords(field.Column, field.Row));
+            m_game.MakeMove(field.Coords);
         }
 
 

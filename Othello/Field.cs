@@ -24,15 +24,13 @@ namespace Othello
             }
         }
 
-        public Field(FieldValue value, int row, int column)
+        public Field(FieldValue value, Coords coord)
         {
             Value = value;
-            Row = row;
-            Column = column;            
+            Coords = coord;           
         }
 
-        public int Row { get; private set; }
-        public int Column { get; private set; }
+        public Coords Coords { get; private set; }
 
         private FieldValue? m_value;
         public FieldValue Value { 

@@ -80,7 +80,7 @@ namespace Othello
                 var columns = new ObservableCollection<Field>();
                 for (int col = 0; col < size; col++)
                 {
-                    var field = new Field(FieldValue.Empty, row, col);
+                    var field = new Field(FieldValue.Empty, new Coords(col, row));
                     columns.Add(field);
                 }
 

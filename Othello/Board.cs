@@ -39,55 +39,42 @@ namespace Othello
             }
         }
         
-        private FieldValue GetFieldValue(int row, int column)
-        {
-            if (!Coords.IsInsideBoard(row, column, Size))
-            {
-                throw new ArgumentOutOfRangeException("Row or column index out of range");
-            }
-
-            return Fields[row, column];
-        }
 
         public FieldValue GetFieldValue(Coords coords)
         {
-            return GetFieldValue(coords.Y, coords.X);
-        }
-
-        private void SetFieldValue(FieldValue value, int row, int column)
-        {
-            if (!Coords.IsInsideBoard(row, column, Size))
+            if (!coords.IsInsideBoard(Size))
             {
                 throw new ArgumentOutOfRangeException("Row or column index out of range");
             }
 
-            Fields[row, column] = value;
+            return Fields[coords.Y, coords.X];
         }
 
         public void SetFieldValue(FieldValue value, Coords coords)
         {
-            SetFieldValue(value, coords.Y, coords.X);
-        }
-
-        private void FlipPiece(int row, int column)
-        {
-            if (!Coords.IsInsideBoard(row, column, Size))
+            if (!coords.IsInsideBoard(Size))
             {
                 throw new ArgumentOutOfRangeException("Row or column index out of range");
             }
 
-            var value = Fields[row, column];
+            Fields[coords.Y, coords.X] = value;
+        }
+
+
+        public void FlipPiece(Coords coords)
+        {
+            if (!coords.IsInsideBoard(Size))
+            {
+                throw new ArgumentOutOfRangeException("Row or column index out of range");
+            }
+
+            var value = Fields[coords.Y, coords.X];
             if (value != FieldValue.Black && value != FieldValue.White)
             {
                 throw new ArgumentException("No piece to flip!");
             }
 
-            Fields[row, column] = value.OppositeColor();
-        }
-
-        public void FlipPiece(Coords coords)
-        {
-            FlipPiece(coords.Y, coords.X);
+            Fields[coords.Y, coords.X] = value.OppositeColor();
         }
 
         public int CountByFieldValue(FieldValue value)
