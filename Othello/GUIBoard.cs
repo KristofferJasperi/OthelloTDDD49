@@ -13,7 +13,7 @@ namespace Othello
     /// Special class for GUIBoard. Contains Field objects which
     /// implements INotifyPropertyChanged interface.
     /// </summary>
-    public class GUIBoard //: Board
+    public class GUIBoard
     {
         public int Size { get; private set; }
 

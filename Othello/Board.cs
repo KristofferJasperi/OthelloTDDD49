@@ -8,9 +8,17 @@ namespace Othello
 {
     public interface IBoardReader
     {
+        /// <summary>
+        /// Gets the field value for given coords.
+        /// </summary>
         FieldValue GetFieldValue(Coords coords);
+
+        /// <summary>
+        /// The size of the board.
+        /// </summary>
         int Size {get;}
     }
+
     
     public class Board : IBoardReader
     {
@@ -19,6 +27,11 @@ namespace Othello
 
         public Board(int size)
         {
+            if (size <= 0)
+            {
+                throw new ArgumentException("Invalid board size", "size");
+            }
+
             Size = size;
             Fields = new FieldValue[size, size];
         }
@@ -91,9 +104,6 @@ namespace Othello
             return count;
         }
 
-        /// <summary>
-        /// Sets the starting field values
-        /// </summary>
         public void SetStartValues()
         {
             int middle = Size / 2;

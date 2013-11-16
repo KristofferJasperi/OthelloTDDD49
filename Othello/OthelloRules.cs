@@ -49,11 +49,14 @@ namespace Othello
         {
             var possibleDirections = new List<Coords>();
 
-            foreach (var direction in Directions.All)
+            if (board.GetFieldValue(coords) != FieldValue.Empty)
             {
-                if (IsDirectionValid(color, coords, direction, board))
+                foreach (var direction in Directions.All)
                 {
-                    possibleDirections.Add(direction);
+                    if (IsDirectionValid(color, coords, direction, board))
+                    {
+                        possibleDirections.Add(direction);
+                    }
                 }
             }
 
@@ -63,25 +66,41 @@ namespace Othello
 
         public static bool IsValidMove(FieldValue color, Coords coords, IBoardReader board)
         {
-            foreach (var direction in Directions.All)
+            if (board.GetFieldValue(coords) != FieldValue.Empty)
             {
-                if (IsDirectionValid(color, coords, direction, board))
+                foreach (var direction in Directions.All)
                 {
-                    return true;
+                    if (IsDirectionValid(color, coords, direction, board))
+                    {
+                        return true;
+                    }
                 }
             }
 
             return false;
         }
 
-        public static List<Coords> GetValidMovesForColor(FieldValue color)
+        public static List<Coords> GetValidMovesForColor(FieldValue color, IBoardReader board)
         {
-            throw new NotImplementedException();
+            var validMoves = new List<Coords>();
+            for (int y = 0; y < board.Size; ++y)
+            {
+                for (int x = 0; x < board.Size; ++x)
+                {
+                    var coords = new Coords(x, y);
+                    if (IsValidMove(color, coords, board))
+                    {
+                        validMoves.Add(coords);
+                    }
+                }
+            }
+
+            return validMoves;
         }
 
-        public static bool IsGameOver()
+        public static bool IsGameOver(IBoardReader board)
         {
-            throw new NotImplementedException();
+            return !GetValidMovesForColor(FieldValue.Black, board).Any() && !GetValidMovesForColor(FieldValue.White, board).Any();
         }
     }
 }
