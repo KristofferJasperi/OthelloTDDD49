@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,15 +12,7 @@ namespace Othello
 {  
     public static class OthelloRules
     {   
-        private static bool IsValidRange(int x, int y, int size)
-        {
-            return x >= 0 && x < size && y >= 0 && y < size;
-        }
-
         /// <summary>
-        /// Jag la till lite hjälpsaker i Coords och color för att kunna
-        /// göra koden mindre. Det minskade lite code metrics-värden,
-        /// bla Cyclomatic Complexity och LOC.
         /// </summary>
         private static bool IsDirectionValid(FieldValue color, Coords start, Coords dir, IBoardReader board)
         {
@@ -52,7 +45,6 @@ namespace Othello
             return isValid;
         }
 
-
         public static List<Coords> GetPossibleDirections(FieldValue color, Coords coords, IBoardReader board)
         {
             var possibleDirections = new List<Coords>();
@@ -64,12 +56,22 @@ namespace Othello
                     possibleDirections.Add(direction);
                 }
             }
+
             return possibleDirections;
         }
 
+
         public static bool IsValidMove(FieldValue color, Coords coords, IBoardReader board)
         {
-            return GetPossibleDirections(color, coords, board).Count != 0;
+            foreach (var direction in Directions.All)
+            {
+                if (IsDirectionValid(color, coords, direction, board))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public static List<Coords> GetValidMovesForColor(FieldValue color)
