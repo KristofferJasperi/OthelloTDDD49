@@ -42,6 +42,8 @@ namespace Othello
             m_board = new Board(8);
             m_guiboard = new GUIBoard(m_board);
             m_game = new OthelloGame(m_board);
+            BlackCount.DataContext = m_guiboard;
+            WhiteCount.DataContext = m_guiboard;
             BoardControl.DataContext = m_guiboard;
         }
 
@@ -53,7 +55,7 @@ namespace Othello
 
         private void BoardClicked(object sender, MouseEventArgs e)
         {
-            var field = ((Border)sender).Tag as Field;
+            var field = ((Border)sender).Tag as GUIField;
             m_game.MakeMove(field.Coords);
         }
 

@@ -5,7 +5,6 @@
     <Application.Resources>
         <!-- Styles -->
         <Style x:Key="SidePanel" TargetType="StackPanel">
-            <Setter Property="Background" Value="Aquamarine"/>
         </Style>
         <Style x:Key="SideBoxBorder" TargetType="Border">
             <Setter Property="BorderBrush" Value="Black"/>

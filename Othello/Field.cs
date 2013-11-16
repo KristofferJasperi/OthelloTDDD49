@@ -9,7 +9,7 @@ using System.Windows.Media;
 
 namespace Othello
 {
-    public class Field : INotifyPropertyChanged
+    public class GUIField : INotifyPropertyChanged
     {
         /// <summary>
         /// This method is called by the Set accessor of each property. 
@@ -24,7 +24,7 @@ namespace Othello
             }
         }
 
-        public Field(FieldValue value, Coords coord)
+        public GUIField(FieldValue value, Coords coord)
         {
             Value = value;
             Coords = coord;           
@@ -43,7 +43,7 @@ namespace Othello
                 if (m_value != value)
                 {
                     m_value = value;
-                    NotifyPropertyChanged();
+                    //NotifyPropertyChanged();
                     if (value == FieldValue.Black)
                     {
                         Color = new SolidColorBrush(Colors.Black);
