@@ -11,39 +11,31 @@ namespace Othello
     /// </summary>
     public class OthelloGame
     {
-        private GUIBoard m_guiBoard;
-        private Board m_board;
+        private IBoardWriter m_board;
         private Player m_playerBlack;
         private Player m_playerWhite;
-        private Player activePlayer;
+        private Player m_activePlayer;
 
-        public OthelloGame(GUIBoard guiBoard)
+        public OthelloGame(IBoardWriter board)
         {
-            m_guiBoard = guiBoard;
-            m_board = new Board(m_guiBoard.Size);
-
+            m_board = board;
             m_playerBlack = new Player() { Type = PlayerType.Player, Color = FieldValue.Black };
             m_playerWhite = new Player() { Type = PlayerType.Player, Color = FieldValue.White };
 
-            activePlayer = m_playerBlack;
+            m_activePlayer = m_playerBlack;
         }
 
         public void Restart()
         {
-            activePlayer = m_playerBlack;
+            m_activePlayer = m_playerBlack;
 
             m_board.ClearBoard();
             m_board.SetStartValues();
-            Update();
         }
 
         /// <summary>
         /// Flips one direction. Make sure the direction is a valid direction
         /// before flipping. Otherwise it will flip all pieces.
-        /// 
-        /// TODO: Should this method check if the direction is valid first?
-        /// It propably should'nt because then we have to check the direction
-        /// twice.
         /// </summary>
         private void FlipDirection(FieldValue color, Coords start, Coords dir)
         {
@@ -70,7 +62,7 @@ namespace Othello
 
         public void MakeMove(Coords coords)
         {
-            FieldValue color = activePlayer.Color;
+            FieldValue color = m_activePlayer.Color;
 
             var possibleDirection = OthelloRules.GetPossibleDirections(color, coords, m_board);
 
@@ -83,15 +75,13 @@ namespace Othello
                 }
                 m_board.SetFieldValue(color, coords);
 
-                Update();
-
-                activePlayer = activePlayer == m_playerBlack ? m_playerWhite : m_playerBlack;
+                ToggleActivePlayer();
             }
         }
 
-        private void Update()
+        private void ToggleActivePlayer()
         {
-            m_guiBoard.Update(m_board.Fields);
+            m_activePlayer = m_activePlayer == m_playerBlack ? m_playerWhite : m_playerBlack;
         }
     }
 }

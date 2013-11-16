@@ -36,13 +36,7 @@ namespace OthelloTest
 
             board.SetFieldValue(FieldValue.White, new Coords(1, 1));
             valid = OthelloRules.IsValidMove(FieldValue.Black, new Coords(0, 2), board);
-            Assert.False(valid);
-        }
-
-
-        [TestMethod]
-        public void IsValidMove_Test()
-        {
+            Assert.IsFalse(valid);
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,15 +16,51 @@ namespace Othello
         FieldValue GetFieldValue(Coords coords);
 
         /// <summary>
-        /// The size of the board.
+        /// Number of fields that contains a black piece.
+        /// </summary>
+        int CountBlacks {get;}
+
+        /// <summary>
+        /// Number of fields that contains a white piece.
+        /// </summary>
+        int CountWhites { get; }
+
+        /// <summary>
+        /// The size of the board. Total number if fields
+        /// is size*size.
         /// </summary>
         int Size {get;}
     }
 
-    
-    public class Board : IBoardReader
+    public interface IBoardWriter : IBoardReader
     {
-        public FieldValue[,] Fields { get; private set; }
+        /// <summary>
+        /// Sets all fields value to empty.
+        /// </summary>
+        void ClearBoard();
+
+        /// <summary>
+        /// Sets start pieces.
+        /// </summary>
+        void SetStartValues();
+
+        /// <summary>
+        /// Sets a given field to a given value.
+        /// </summary>
+        void SetFieldValue(FieldValue value, Coords coords);
+
+        /// <summary>
+        /// Flips the piece at the given coordinates, if
+        /// the field at those coordinates is empty, an
+        /// exception is thrown.
+        /// </summary>
+        void FlipPiece(Coords coords);
+    }
+
+    
+    public class Board : IBoardReader, IBoardWriter
+    {
+        private FieldValue[,] m_fields;
         public int Size { get; private set; }
 
         public Board(int size)
@@ -33,7 +71,7 @@ namespace Othello
             }
 
             Size = size;
-            Fields = new FieldValue[size, size];
+            m_fields = new FieldValue[size, size];
         }
 
         public int CountBlacks
@@ -60,7 +98,7 @@ namespace Othello
                 throw new ArgumentOutOfRangeException("Row or column index out of range");
             }
 
-            return Fields[coords.Y, coords.X];
+            return m_fields[coords.X, coords.Y];
         }
 
         public void SetFieldValue(FieldValue value, Coords coords)
@@ -69,8 +107,14 @@ namespace Othello
             {
                 throw new ArgumentOutOfRangeException("Row or column index out of range");
             }
-
-            Fields[coords.Y, coords.X] = value;
+            if (m_fields[coords.X, coords.Y] != value)
+            {
+                m_fields[coords.X, coords.Y] = value;
+                if (BoardChanged != null)
+                {
+                    BoardChanged(coords, value);
+                }
+            }
         }
 
 
@@ -81,19 +125,19 @@ namespace Othello
                 throw new ArgumentOutOfRangeException("Row or column index out of range");
             }
 
-            var value = Fields[coords.Y, coords.X];
+            var value = m_fields[coords.X, coords.Y];
             if (value != FieldValue.Black && value != FieldValue.White)
             {
                 throw new ArgumentException("No piece to flip!");
             }
 
-            Fields[coords.Y, coords.X] = value.OppositeColor();
+            SetFieldValue(value.OppositeColor(), coords);
         }
 
         public int CountByFieldValue(FieldValue value)
         {
             int count = 0;
-            foreach (var val in Fields)
+            foreach (var val in m_fields)
             {
                 if (val == value)
                 {
@@ -107,21 +151,24 @@ namespace Othello
         public void SetStartValues()
         {
             int middle = Size / 2;
-            Fields[middle - 1, middle - 1] = FieldValue.Black;
-            Fields[middle, middle] = FieldValue.Black;
-            Fields[middle - 1, middle] = FieldValue.White;
-            Fields[middle, middle - 1] = FieldValue.White;
+            SetFieldValue(FieldValue.Black, new Coords(middle - 1, middle - 1));
+            SetFieldValue(FieldValue.Black, new Coords(middle, middle));
+            SetFieldValue(FieldValue.White, new Coords(middle - 1, middle));
+            SetFieldValue(FieldValue.White, new Coords(middle, middle - 1));
         }
 
         public void ClearBoard()
         {
-            for (int row = 0; row < Size; ++row)
+            for (int x = 0; x < Size; ++x)
             {
-                for (int col = 0; col < Size; ++col)
+                for (int y = 0; y < Size; ++y)
                 {
-                    Fields[row, col] = FieldValue.Empty;
+                    SetFieldValue(FieldValue.Empty, new Coords(x, y));
                 }
             }
         }
+
+        public delegate void BoardChangedEventHandler(Coords coords, FieldValue value);
+        public event BoardChangedEventHandler BoardChanged;
     }
 }

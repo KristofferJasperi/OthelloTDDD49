@@ -49,7 +49,7 @@ namespace Othello
         {
             var possibleDirections = new List<Coords>();
 
-            if (board.GetFieldValue(coords) != FieldValue.Empty)
+            if (board.GetFieldValue(coords) == FieldValue.Empty)
             {
                 foreach (var direction in Directions.All)
                 {
@@ -66,7 +66,8 @@ namespace Othello
 
         public static bool IsValidMove(FieldValue color, Coords coords, IBoardReader board)
         {
-            if (board.GetFieldValue(coords) != FieldValue.Empty)
+            var value = board.GetFieldValue(coords);
+            if (value == FieldValue.Empty)
             {
                 foreach (var direction in Directions.All)
                 {

@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="BoardTest.cs" />
     <Compile Include="CoordsTest.cs" />
+    <Compile Include="FieldValueExtensionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="OthelloRulesTest.cs" />
   </ItemGroup>

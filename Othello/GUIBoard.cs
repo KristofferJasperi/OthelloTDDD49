@@ -9,85 +9,39 @@ using System.Threading.Tasks;
 
 namespace Othello
 {
-    /// <summary>
-    /// Special class for GUIBoard. Contains Field objects which
-    /// implements INotifyPropertyChanged interface.
-    /// </summary>
     public class GUIBoard
     {
+        private Board m_board;
         public int Size { get; private set; }
+        
+        public ObservableCollection<ObservableCollection<Field>> Rows { get; set; }
 
-        /// <summary>
-        /// This method is called by the Set accessor of each property. 
-        /// The CallerMemberName attribute that is applied to the optional propertyName 
-        /// parameter causes the property name of the caller to be substituted as an argument. 
-        /// </summary>
-        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+      
+        public void OnBoardChanged(Coords coords, FieldValue value)
         {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
+            Rows[coords.Y][coords.X].Value = value;
         }
 
-        private ObservableCollection<ObservableCollection<Field>> m_rows;
-
-        /// <summary>
-        /// Collection of fields.
-        /// </summary>
-        public ObservableCollection<ObservableCollection<Field>> Rows {
-            get
-            {
-                return m_rows;
-            }
-            private set
-            {
-                if (m_rows != value)
-                {
-                    m_rows = value;
-                    NotifyPropertyChanged();
-                }
-            }
-        }
-
-        public void Update(FieldValue[,] fields)
+        public GUIBoard(Board board)
         {
-            if (Size * Size != fields.Length)
-            {
-                throw new ArgumentException("Size mismatch", "fields");
-            }
+            Rows = new ObservableCollection<ObservableCollection<Field>>();
+            Size = board.Size;
+            m_board = board;
+
+            m_board.BoardChanged += OnBoardChanged;
 
             for (int row = 0; row < Size; row++)
             {
+                var columns = new ObservableCollection<Field>();
                 for (int col = 0; col < Size; col++)
                 {
-                    Rows[row][col].Value = fields[row, col];
-                }
-            }
-        }
-
-        /// <summary>
-        /// Creates a GUIBoard.
-        /// </summary>
-        /// <param name="size"></param>
-        public GUIBoard(int size)
-        {
-            Rows = new ObservableCollection<ObservableCollection<Field>>();
-            Size = size;
-
-            for (int row = 0; row < size; row++)
-            {
-                var columns = new ObservableCollection<Field>();
-                for (int col = 0; col < size; col++)
-                {
-                    var field = new Field(FieldValue.Empty, new Coords(col, row));
+                    var coords = new Coords(col, row);
+                    var field = new Field(board.GetFieldValue(coords), coords);
                     columns.Add(field);
                 }
 
                 Rows.Add(columns);
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
     }
 }
