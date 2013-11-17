@@ -79,7 +79,9 @@
         <ItemsControl ItemTemplate="{StaticResource RowTemplate}" 
                       ItemsSource="{Binding Path=Rows}"
                       x:Name="BoardControl"
-                      Background="Green">
+                      Background="Green"
+                      Margin="3"
+                      Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Columns="1"/>
