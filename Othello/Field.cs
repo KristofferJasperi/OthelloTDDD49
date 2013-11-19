@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace Othello
 {
@@ -23,6 +24,8 @@ namespace Othello
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+        private Storyboard m_storyboard;
 
         public GUIField(FieldValue value, Coords coord)
         {
@@ -60,8 +63,8 @@ namespace Othello
             }
         }
 
-        private Brush m_color;
-        public Brush Color
+        private SolidColorBrush m_color;
+        public SolidColorBrush Color
         {
             get
             {
@@ -71,10 +74,21 @@ namespace Othello
             {
                 if (m_color != value)
                 {
+                    var old_color = m_color;
                     m_color = value;
+                    if (old_color != null && WasFlipped(old_color.Color, value.Color))
+                    {
+                        //TODO: Animate
+                    }
                     NotifyPropertyChanged();
                 }
             }
+        }
+
+        private bool WasFlipped(Color old_color, Color new_color)
+        {
+            return (old_color.Equals(Colors.Black) && new_color.Equals(Colors.White)) ||
+                (old_color.Equals(Colors.White) && new_color.Equals(Colors.Black));
         }
 
         private Brush m_backgroundColor;

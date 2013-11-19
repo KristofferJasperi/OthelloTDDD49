@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -11,9 +13,11 @@ namespace Othello
     {
         private Board m_board;
         public ObservableCollection<ObservableCollection<GUIField>> Rows { get; private set; }
+        public bool ShowValidMoves { get; set; }
 
         public BoardControl()
         {
+            ShowValidMoves = false;
             InitializeComponent();
         }
 
@@ -46,9 +50,13 @@ namespace Othello
                 this.DataContext = Rows;
         }
 
+
         private void BoardChanged(Coords coords, FieldValue value)
         {
-            Rows[coords.Y][coords.X].Value = value;
+            if (Rows != null)
+            {
+                Rows[coords.Y][coords.X].Value = value;
+            }
         }
 
         private void BoardClicked(object sender, MouseEventArgs e)
