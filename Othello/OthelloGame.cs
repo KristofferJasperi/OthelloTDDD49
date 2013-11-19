@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,12 +11,27 @@ namespace Othello
     /// <summary>
     /// The OthelloGame logic.
     /// </summary>
-    public class OthelloGame
+    public class OthelloGame : INotifyPropertyChanged
     {
         private IBoardWriter m_board;
         private Player m_playerBlack;
         private Player m_playerWhite;
         private Player m_activePlayer;
+        public Player ActivePlayer
+        {
+            get
+            {
+                return m_activePlayer;
+            }
+            private set
+            {
+                if (m_activePlayer != value)
+                {
+                    m_activePlayer = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
 
         public OthelloGame(IBoardWriter board)
         {
@@ -22,12 +39,12 @@ namespace Othello
             m_playerBlack = new Player() { Type = PlayerType.Player, Color = FieldValue.Black };
             m_playerWhite = new Player() { Type = PlayerType.Player, Color = FieldValue.White };
 
-            m_activePlayer = m_playerBlack;
+            ActivePlayer = m_playerBlack;
         }
 
         public void Restart()
         {
-            m_activePlayer = m_playerBlack;
+            ActivePlayer = m_playerBlack;
 
             m_board.ClearBoard();
             m_board.SetStartValues();
@@ -60,28 +77,39 @@ namespace Othello
         }
 
 
-        public void MakeMove(Coords coords)
+        public void MakeMove(MoveType type, Coords coords)
         {
-            FieldValue color = m_activePlayer.Color;
-
-            var possibleDirection = OthelloRules.GetPossibleDirections(color, coords, m_board);
-
-
-            if(possibleDirection.Count != 0)
+            if(type.Equals(MoveType.AddPiece))
             {
-                foreach (var dir in possibleDirection)
-                {
-                    FlipDirection(color, coords, dir);
-                }
-                m_board.SetFieldValue(color, coords);
+                FieldValue color = m_activePlayer.Color;
 
-                ToggleActivePlayer();
+                var flipDirections = OthelloRules.GetPossibleDirections(color, coords, m_board);
+
+                if(flipDirections.Count != 0)
+                {
+                    foreach (var dir in flipDirections)
+                    {
+                        FlipDirection(color, coords, dir);
+                    }
+                    m_board.SetFieldValue(color, coords);
+
+                    ToggleActivePlayer();
+                }
             }
         }
 
         private void ToggleActivePlayer()
         {
-            m_activePlayer = m_activePlayer == m_playerBlack ? m_playerWhite : m_playerBlack;
+            ActivePlayer = ActivePlayer == m_playerBlack ? m_playerWhite : m_playerBlack;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }

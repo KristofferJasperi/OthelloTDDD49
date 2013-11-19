@@ -33,18 +33,16 @@ namespace Othello
     public partial class MainWindow : Window
     {
         private OthelloGame m_game;
-        private GUIBoard m_guiboard;
         private Board m_board;
 
         public MainWindow()
         {
             InitializeComponent();
             m_board = new Board(8);
-            m_guiboard = new GUIBoard(m_board);
             m_game = new OthelloGame(m_board);
-            BlackCount.DataContext = m_guiboard;
-            WhiteCount.DataContext = m_guiboard;
-            BoardControl.DataContext = m_guiboard;
+            Board.SetBoard(m_board);// DataContext = m_guiboard;
+            Board.BoardClickedEvent += BoardClicked;
+            
         }
 
         private void ExitClicked(object sender, RoutedEventArgs e)
@@ -56,7 +54,7 @@ namespace Othello
         private void BoardClicked(object sender, MouseEventArgs e)
         {
             var field = ((Border)sender).Tag as GUIField;
-            m_game.MakeMove(field.Coords);
+            m_game.MakeMove(MoveType.AddPiece, field.Coords);
         }
 
 

@@ -4,21 +4,7 @@
         xmlns:clr="clr-namespace:Othello"
         Title="Othello Test o git" Height="500" Width="600">
     <Window.Resources>
-        <DataTemplate x:Key="CellTemplate" DataType="x:Type Othello.Field">
-            <Border PreviewMouseDown="BoardClicked" Tag="{Binding}" BorderBrush="Black" BorderThickness="1 1 1 1">
-                <Ellipse Fill="{Binding Color}" Margin="2" />
-            </Border>
-        </DataTemplate>
-        <DataTemplate x:Key="RowTemplate">
-            <ItemsControl ItemTemplate="{StaticResource CellTemplate}" 
-                          ItemsSource="{Binding}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <UniformGrid Rows="1"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-        </DataTemplate>
+        
     </Window.Resources>
     <DockPanel Background="Green">
         <Border  DockPanel.Dock="Top" BorderBrush="Black" BorderThickness="1" Margin="3" Height="80">
@@ -28,7 +14,6 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-
                 <Ellipse Grid.Column="0" Width="50" Height="50" Fill="Black">
                 </Ellipse>
                 <Ellipse Grid.Column="2" Width="50" Height="50" Fill="White"></Ellipse>
@@ -76,18 +61,7 @@
             <ListBoxItem>Black A8</ListBoxItem>
         </ListBox>
         <Border BorderThickness="1" BorderBrush="Black" Margin="3">
-        <ItemsControl ItemTemplate="{StaticResource RowTemplate}" 
-                      ItemsSource="{Binding Path=Rows}"
-                      x:Name="BoardControl"
-                      Background="Green"
-                      Margin="3"
-                      Width="{Binding ActualHeight, RelativeSource={RelativeSource Self}}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid Columns="1"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-        </ItemsControl>
+            <clr:BoardControl x:Name="Board"></clr:BoardControl>
         </Border>
     </DockPanel>
  </Window>
