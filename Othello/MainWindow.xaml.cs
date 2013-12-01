@@ -41,8 +41,7 @@ namespace Othello
             m_board = new Board(8);
             m_game = new OthelloGame(m_board);
             Board.SetBoard(m_board);// DataContext = m_guiboard;
-            Board.BoardClickedEvent += BoardClicked;
-            
+            Board.BoardClickedEvent += BoardClicked;            
         }
 
         private void ExitClicked(object sender, RoutedEventArgs e)
@@ -55,6 +54,7 @@ namespace Othello
         {
             var field = ((Border)sender).Tag as GUIField;
             m_game.MakeMove(MoveType.AddPiece, field.Coords);
+            Board.UpdateHighlights(m_game.ActivePlayer.Color);
         }
 
         private void PassClicked(object sender, RoutedEventArgs e)
@@ -63,11 +63,13 @@ namespace Othello
             {
                 MessageBox.Show("Pass not allowed at the moment.");
             }
+            Board.UpdateHighlights(m_game.ActivePlayer.Color);
         }
 
         private void StartClicked(object sender, RoutedEventArgs e)
         {
            m_game.Restart();
+           Board.UpdateHighlights(m_game.ActivePlayer.Color);
         }
     }
 }

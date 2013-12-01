@@ -30,7 +30,9 @@ namespace Othello
         public GUIField(FieldValue value, Coords coord)
         {
             Value = value;
-            Coords = coord;           
+            Coords = coord;
+            BackgroundColor = new SolidColorBrush(Colors.White);
+            BackgroundColor.Opacity = 0.0;
         }
 
         public Coords Coords { get; private set; }
@@ -98,7 +100,7 @@ namespace Othello
             {
                 return m_backgroundColor;
             }
-            private set
+            set
             {
                 if (m_backgroundColor != value)
                 {

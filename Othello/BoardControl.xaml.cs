@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace Othello
 {
@@ -17,7 +18,7 @@ namespace Othello
 
         public BoardControl()
         {
-            ShowValidMoves = false;
+            ShowValidMoves = true;
             InitializeComponent();
         }
 
@@ -48,6 +49,26 @@ namespace Othello
                 }
 
                 this.DataContext = Rows;
+        }
+
+        public void UpdateHighlights(FieldValue color)
+        {
+            var validMoves = OthelloRules.GetValidMovesForColor(color, m_board);
+            
+            foreach (var column in Rows)
+            {
+                foreach (var field in column)
+                {
+                    if (ShowValidMoves && validMoves.Contains(field.Coords))
+                    {
+                        field.BackgroundColor.Opacity = 0.4;
+                    }
+                    else
+                    {
+                        field.BackgroundColor.Opacity = 0.0;
+                    }
+                }
+            }
         }
 
 
