@@ -76,26 +76,27 @@ namespace Othello
             }
         }
 
-
-        public void MakeMove(MoveType type, Coords coords)
+        public bool MakeMove(MoveType type, Coords coords)
         {
-            if(type.Equals(MoveType.AddPiece))
+            if (OthelloRules.IsValidMove(type, m_activePlayer.Color, coords, m_board))
             {
-                FieldValue color = m_activePlayer.Color;
-
-                var flipDirections = OthelloRules.GetPossibleDirections(color, coords, m_board);
-
-                if(flipDirections.Count != 0)
+                if (type.Equals(MoveType.AddPiece))
                 {
+                    FieldValue color = m_activePlayer.Color;
+
+                    var flipDirections = OthelloRules.GetPossibleDirections(color, coords, m_board);
                     foreach (var dir in flipDirections)
                     {
                         FlipDirection(color, coords, dir);
                     }
                     m_board.SetFieldValue(color, coords);
-
-                    ToggleActivePlayer();
                 }
+
+                ToggleActivePlayer();
+                return true;
             }
+
+            return false;
         }
 
         private void ToggleActivePlayer()

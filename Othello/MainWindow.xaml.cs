@@ -57,6 +57,13 @@ namespace Othello
             m_game.MakeMove(MoveType.AddPiece, field.Coords);
         }
 
+        private void PassClicked(object sender, RoutedEventArgs e)
+        {
+            if (!m_game.MakeMove(MoveType.Pass, new Coords(-1, -1)))
+            {
+                MessageBox.Show("Pass not allowed at the moment.");
+            }
+        }
 
         private void StartClicked(object sender, RoutedEventArgs e)
         {

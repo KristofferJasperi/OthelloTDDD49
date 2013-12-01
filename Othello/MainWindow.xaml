@@ -46,7 +46,7 @@
             <Border Style="{StaticResource SideBoxBorder}">
                 <StackPanel Style="{StaticResource SideBox}">
                     <TextBlock Style="{StaticResource SideBoxHeader}">Actions</TextBlock>
-                    <Button>Pass</Button>
+                    <Button Click="PassClicked">Pass</Button>
                     <Button>Save Game</Button>
                     <Button>Load Game</Button>
                     <Button Click="ExitClicked">Exit</Button>

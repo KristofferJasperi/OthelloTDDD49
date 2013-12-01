@@ -63,6 +63,21 @@ namespace Othello
             return possibleDirections;
         }
 
+        public static bool IsValidMove(MoveType type, FieldValue color, Coords coords, IBoardReader board)
+        {
+            if (type.Equals(MoveType.AddPiece))
+            {
+                return IsValidMove(color, coords, board);
+            }
+            else if (type.Equals(MoveType.Pass))
+            {
+                return !GetValidMovesForColor(color, board).Any();
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         public static bool IsValidMove(FieldValue color, Coords coords, IBoardReader board)
         {
